@@ -1,0 +1,47 @@
+services:
+
+  web:
+    container_name: parrots-app
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "3000:3000"
+      - "1234:1234"    # debugger port
+      - "26162:26162"  # RubyMine uses this for debase/rdebug-ide coordination
+    depends_on:
+      redis: 
+        condition: service_healthy
+    networks:
+      - parrots
+    env_file:
+      - .env
+
+  redis:
+    image: "redis:alpine"
+    container_name: parrots-redis
+    command: redis-server
+    ports:
+      - "${FORWARD_REDIS_PORT:-6379}:6379"
+    volumes:
+      - "parrots-redis:/data"
+    networks:
+      - parrots
+    healthcheck:
+      test:
+        - CMD
+        - redis-cli
+        - ping
+      retries: 3
+      timeout: 5s
+
+networks:
+   parrots:
+      driver: bridge
+
+volumes:
+   parrots-redis:
+      driver: local
+

@@ -1,0 +1,8 @@
+.env
+tmp/*
+!tmp/.keep
+.idea/*
+vendor/*
+bin/*
+log/*
+!log/.keep
