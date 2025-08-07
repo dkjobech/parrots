@@ -1,0 +1,79 @@
+on:
+  push:
+    branches: [ "main" ]
+
+name: Deploy rails app to Amazon ECS
+
+jobs:
+  deploy:
+    name: Deploy Rails app
+    permissions:
+      id-token: write # This is required for requesting the JWT
+      contents: read # This is required for actions/checkou
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name }}
+
+    steps:
+      - name: Export variables to env
+        run: |
+          ENV_JSON='${{ vars.DEPLOY_VARIABLES }}'
+          echo "$ENV_JSON" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
+
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          audience: sts.amazonaws.com
+          role-session-name: github-php-deploy-session
+          role-to-assume: ${{ env.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION}}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        working-directory: ./
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ env.REPOSITORY_PREFIX }}-php
+          IMAGE_TAG: php-${{ github.sha }}
+        run: |
+          # Build php docker container and push it to ECR.
+          docker build -f ./docker/aws/Dockerfile.php --target php-aws -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .  2>&1 
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+      # Deploy image to the web-redis task
+      - name: Download web-redis task def
+        id: get-task-def
+        run: |
+          aws ecs describe-task-definition --task-definition ${{ env.REPOSITORY_PREFIX }}-web-redis-task --query taskDefinition > task-definition.json
+          echo $(cat task-definition.json | jq 'del(
+                    .taskDefinitionArn,
+                    .requiresAttributes,
+                    .compatibilities,
+                    .revision,
+                    .status,
+                    .registeredAt,
+                    .registeredBy
+                )') > task-definition.json
+
+      - name: Fill in the new image ID in the Amazon ECS web-redis task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: php
+          image: ${{ steps.build-image.outputs.image }}
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ env.REPOSITORY_PREFIX }}-ecs-web-redis-service
+          cluster: ${{ env.REPOSITORY_PREFIX }}-cluster
+          wait-for-service-stability: true

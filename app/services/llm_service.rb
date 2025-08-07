@@ -7,7 +7,7 @@ class LlmService
   DEFAULT_MAX_TOKENS = 60
   DEFAULT_TEMPERATURE = 0.5
 
-  def initialize(api_key: ENV["OPENAI_API_KEY"])
+  def initialize(api_key: Rails.application.credentials.openai[:api_key] || ENV['OPENAI_API_KEY'])
     @client = OpenAI::Client.new(api_key: api_key)
   end
 

@@ -24,8 +24,10 @@ pickle-email-*.html
 config/initializers/secret_token.rb
 config/master.key
 
-# Only include if you have production secrets in this file, which is no longer a Rails default
-# config/secrets.yml
+# Environment-specific credential keys - NEVER commit these!
+config/credentials/*.key
+
+config/*.key
 
 # dotenv, dotenv-rails
 # TODO Comment out these rules if environment variables can be committed
@@ -70,3 +72,6 @@ yarn-debug.log*
 /storage/*
 !/storage/.keep
 /public/uploads
+!/config/master.key
+
+/config/master.key
