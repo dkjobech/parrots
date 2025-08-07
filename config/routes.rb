@@ -6,8 +6,9 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
-  root "main#home"
-  get "about" => "main#about"
+  # Serve React app for the root route and any unmatched routes
+  root 'application#index'
+  get '*path', to: 'application#index', constraints: ->(req) { !req.xhr? && req.format.html? }
 
   post "/queue", to: "queues#create"
 

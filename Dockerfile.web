@@ -1,24 +1,34 @@
 FROM ruby:3.2
 
- # (Optionally install system dependencies like node, yarn, postgresql-client, etc.)
- RUN apt-get update && apt-get install -y nodejs yarn build-essential ruby-dev vim-tiny
+# Install system dependencies including newer Node.js for React/TypeScript
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+RUN apt-get update && apt-get install -y nodejs yarn build-essential ruby-dev vim-tiny
 
- WORKDIR /usr/src/app
- COPY Gemfile Gemfile.lock ./
+WORKDIR /usr/src/app
+COPY Gemfile Gemfile.lock ./
 
- RUN bundle install
+RUN bundle install
 
- # Copy all source — this is where your Rails app lives
- COPY . .
+# Install Node.js dependencies
+COPY package.json package-lock.json ./
+COPY tsconfig.json .babelrc ./
+RUN npm install
 
- # Expose app port + debugger ports for RubyMine
- EXPOSE 3000 1234 26162
+# Copy all source — this is where your Rails app lives
+COPY . .
 
- # set container editor so can do ruby credentials
- ENV EDITOR=/usr/bin/vim.tiny
+# Build the JavaScript/TypeScript assets
+RUN npm run build
+RUN npm run build:css
 
- COPY entrypoint.sh /usr/bin/entrypoint.sh
- COPY start-services.sh /usr/bin/start-services.sh
- RUN chmod +x /usr/bin/entrypoint.sh /usr/bin/start-services.sh
- ENTRYPOINT ["entrypoint.sh"]
- CMD ["/usr/bin/start-services.sh"]
+# Expose app port + debugger ports for RubyMine
+EXPOSE 3000 1234 26162
+
+# set container editor so can do ruby credentials
+ENV EDITOR=/usr/bin/vim.tiny
+
+COPY entrypoint.sh /usr/bin/entrypoint.sh
+COPY start-services.sh /usr/bin/start-services.sh
+RUN chmod +x /usr/bin/entrypoint.sh /usr/bin/start-services.sh
+ENTRYPOINT ["entrypoint.sh"]
+CMD ["/usr/bin/start-services.sh"]
