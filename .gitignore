@@ -27,8 +27,6 @@ config/master.key
 # Environment-specific credential keys - NEVER commit these!
 config/credentials/*.key
 
-config/*.key
-
 # dotenv, dotenv-rails
 # TODO Comment out these rules if environment variables can be committed
 .env
