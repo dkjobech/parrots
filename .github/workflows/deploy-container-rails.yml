@@ -43,7 +43,7 @@ jobs:
           IMAGE_TAG: web-${{ github.sha }}
         run: |
           # Build rails docker container and push it to ECR.
-          docker build -f ./Dockerfile.web --target parrots-web -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .  2>&1 
+          docker build -f ./Dockerfile.web -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .  2>&1 
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
