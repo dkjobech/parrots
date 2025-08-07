@@ -5,10 +5,14 @@ class QueuesController < ApplicationController
 
     room = queue_params[:room]
 
-    MessageService.call(room_id: room, message: "Queueing request for room: #{room}")
+    MessageService.call(id: 1, room_id: room, message: "[web] Queueing request for room: #{room}")
+
+    sleep(2)
 
     # Queue the request
     LlmRequestJob.perform_later(room_id: room)
+
+    MessageService.call(id: 2, room_id: room, message: "[web] Request queued: #{room}")
 
     render json: {
       status: 'queued',

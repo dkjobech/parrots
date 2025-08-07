@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 class MessageService
-  def self.call(room_id:, message:)
-    new(room_id: room_id, message: message).call
+  def self.call(id:, room_id:, message:)
+    new(id: id, room_id: room_id, message: message).call
   end
 
-  def initialize(room_id:, message:)
+  def initialize(id:, room_id:, message:)
+    @id = id
     @room = "room_#{room_id}"
     @message = message
   end
@@ -13,6 +14,7 @@ class MessageService
   def call
     # Broadcast to Action Cable
     ActionCable.server.broadcast(@room, {
+      id: @id,
       message: @message,
       timestamp: Time.current,
       type: 'joke'

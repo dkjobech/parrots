@@ -92,7 +92,7 @@ const HomePage: React.FC = () => {
                             borderRadius: '5px'
                         }}
                     >
-                        {message.message}
+                       aaa [id: {message.id}] {message.message}
                     </div>
                 ))}
             </div>
