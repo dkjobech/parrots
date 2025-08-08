@@ -6,6 +6,16 @@
            # Prepare database
            ./bin/rails db:prepare
 
+           # Rails assets
+           ./bin/rails assets:precompile RAILS_ENV=production
+
+           # CSS bundling (if using cssbundling-rails)
+           yarn build:css
+
+           # JS bundling
+           yarn build
+
+
            # Start Sidekiq in the background
            bundle exec sidekiq &
 
