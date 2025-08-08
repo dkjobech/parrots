@@ -1,12 +1,23 @@
 import React from 'react';
 import Header from '../shared/Header';
 import { MainLayoutProps } from '../../types';
+import appleStyles from '../../styles/appleStyles';
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
     return (
-        <div className="app">
+        <div style={{
+            fontFamily: appleStyles.fonts.primary,
+            backgroundColor: appleStyles.colors.background,
+            minHeight: '100vh',
+            display: 'flex',
+            flexDirection: 'column'
+        }}>
             <Header />
-            <main className="main-content">
+            <main style={{
+                flex: 1,
+                display: 'flex',
+                flexDirection: 'column'
+            }}>
                 {children}
             </main>
         </div>

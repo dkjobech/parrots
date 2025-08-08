@@ -1,20 +1,20 @@
-
 {
   "name": "Parrots",
   "private": "true",
   "dependencies": {
+    "@babel/core": "^7.22.0",
+    "@babel/preset-env": "^7.22.0",
+    "@babel/preset-react": "^7.22.0",
+    "@babel/preset-typescript": "^7.22.0",
     "@hotwired/stimulus": "^3.2.1",
     "@hotwired/turbo-rails": "^7.3.0",
+    "@rails/actioncable": "^7.0.0",
     "bootstrap": "^5.3.0",
     "bootstrap-icons": "^1.11.0",
     "esbuild": "^0.19.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "@babel/core": "^7.22.0",
-    "@babel/preset-env": "^7.22.0",
-    "@babel/preset-react": "^7.22.0",
-    "@babel/preset-typescript": "^7.22.0",
-    "@rails/actioncable": "^7.0.0"
+    "react-router-dom": "^7.8.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.0",

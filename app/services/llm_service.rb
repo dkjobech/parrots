@@ -1,8 +1,9 @@
 require "openai"
 
 class LlmService
-  DEFAULT_MODEL = "gpt-3.5-turbo"
-  DEFAULT_SYSTEM_PROMPT = "You are a witty comedian. Tell a clean, one‑line joke about parrots."
+  #  DEFAULT_MODEL = "gpt-3.5-turbo"
+  DEFAULT_MODEL = "gpt-4o"
+  DEFAULT_SYSTEM_PROMPT = "You are a witty comedian. You tell clean, short jokes about topics you are provided. Each joke you tell is different from the last."
   DEFAULT_TOPIC = "parrots"
   DEFAULT_MAX_TOKENS = 60
   DEFAULT_TEMPERATURE = 0.5
@@ -27,7 +28,8 @@ class LlmService
       messages: messages,
       max_tokens: max_tokens,
       temperature: temperature
-    )
+    ).choices.first.message.content
+
   end
 
   private
