@@ -65,6 +65,18 @@ Rails.application.configure do
   # Enable serving of images, stylesheets, and JavaScripts
   config.public_file_server.enabled = true
 
+  # Make sure assets are compiled
+  config.assets.compile = true  # Change this from false to true temporarily to debug
+
+  # Add your CSS files to precompile list if they're not being picked up
+  config.assets.precompile += %w[
+  *.css
+  HomePage.css
+  DetailsPage.css
+  variables.css
+]
+
+
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 
