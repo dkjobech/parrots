@@ -33,7 +33,7 @@ const HomePage: React.FC = () => {
             >
                 <br /><br /><br />
                 <p className="info-text">
-                    * just like parrots, this demo is a little more complicated than it looks. <Link className={'details-link'} to="/details">
+                    * Just like parrots, this demo is a little more complicated than it looks. <Link className={'details-link'} to="/details">
                     Details
                     </Link>
                 </p>

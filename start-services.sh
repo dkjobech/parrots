@@ -9,7 +9,7 @@
            # Rails assets
            ./bin/rails assets:precompile RAILS_ENV=development
 
-           # CSS bundling (if using cssbundling-rails)
+           # CSS bundling
            npm run build:css &
 
            # JS bundling

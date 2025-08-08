@@ -23,8 +23,8 @@
     "typescript": "^5.0.0"
   },
   "scripts": {
-    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=assets --loader:.js=jsx --loader:.tsx=tsx --loader:.ts=ts",
-    "build:watch": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=assets --loader:.js=jsx --loader:.tsx=tsx --loader:.ts=ts --watch",
+    "build": "esbuild app/javascript/*.* app/javascript/styles.js --bundle --sourcemap --outdir=app/assets/builds --public-path=assets --loader:.js=jsx --loader:.tsx=tsx --loader:.ts=ts --loader:.css=css",
+    "build:watch": "esbuild app/javascript/*.* app/javascript/styles.js --bundle --sourcemap --outdir=app/assets/builds --public-path=assets --loader:.js=jsx --loader:.tsx=tsx --loader:.ts=ts --loader:.css=css --watch",
     "build:dev": "npm run build:watch",
     "build:css": "sass ./app/assets/stylesheets/application.bootstrap.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules",
     "build:css:watch": "sass ./app/assets/stylesheets/application.bootstrap.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules --watch"

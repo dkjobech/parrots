@@ -9,16 +9,11 @@ set -e
 # Rails assets
 ./bin/rails assets:precompile RAILS_ENV=development
 
-npm run build:css &
+# Start JavaScript build watcher in the background
+npm run build:watch &
 
 # CSS bundling (if using cssbundling-rails)
 npm run build:css:watch &
-
-# JS bundling
-npm run build &
-
-# Start JavaScript build watcher in the background
-npm run build:watch &
 
 # Start Sidekiq in the background
 bundle exec sidekiq &

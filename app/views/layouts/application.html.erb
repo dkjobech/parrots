@@ -8,6 +8,7 @@
     <%= action_cable_meta_tag %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "styles", "data-turbo-track": "reload" %>
     <%= javascript_tag do %>
       window.csrfToken = '<%= form_authenticity_token %>';
     <% end %>
