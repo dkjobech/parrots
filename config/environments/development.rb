@@ -66,12 +66,15 @@ Rails.application.configure do
   config.public_file_server.enabled = true
 
   # Add your CSS files to precompile list if they're not being picked up
-  config.assets.precompile += %w[
+  if defined?(Rails.application.config.assets)
+    config.assets.precompile += %w[
     *.css
     HomePage.css
     DetailsPage.css
     variables.css
   ]
+  end
+
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
