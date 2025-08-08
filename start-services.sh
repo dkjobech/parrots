@@ -10,10 +10,10 @@
            ./bin/rails assets:precompile RAILS_ENV=development
 
            # CSS bundling (if using cssbundling-rails)
-           yarn build:css
+           npm run build:css &
 
            # JS bundling
-           yarn build
+           npm run build &
 
            # Start Sidekiq in the background
            bundle exec sidekiq &
