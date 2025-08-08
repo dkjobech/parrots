@@ -5,6 +5,7 @@ import '../../styles/variables.css';
 import '../../styles/DetailsPage.css';
 import appleStyles from '../../styles/appleStyles';
 import { ArchitectureIcon } from '../icons/ArchitectureIcons';
+import WhisperSection from '../shared/WhisperSection';
 
 interface ArchitectureStep {
     id: string;
@@ -80,60 +81,23 @@ const DetailsPage: React.FC = () => {
 
     return (
         <div className="details-container">
-            {/* Static content fixed at top - similar to HomePage */}
-            <div className="static-content">
-                <div className="info-text">
-                    <p>
-                        This Rails/React application demonstrates production-ish architecture patterns. It uses Docker for local development and AWS Fargate for hosting (deployed with Terraform).
-                        <br/><br/>
-                        The app mimics high-throughput systems by offloading work to background queues, keeping web responses fast. Worker processes handle long-running LLM API calls, while the UI updates in real-time via WebSockets.
-                        <br/><br/> Try the whisper again and see the architecture diagram updated based on socket messages from throughout the process.</p>
-                </div>
-                
-                <h1 className="page-title">
-                    Want to whisper to a parrot?
-                </h1>
-
-                <button
-                    id="whisper-btn"
-                    className="whisper-button"
-                    onClick={handleWhisperClick}
-                    disabled={isLoading || !finalMessageReceived}
-                    style={{
-                        opacity: (isLoading || !finalMessageReceived) ? 0.7 : 1,
-                        transform: (isLoading || !finalMessageReceived) ? 'scale(0.98)' : 'scale(1)'
-                    }}
-                >
-                    {!finalMessageReceived ? 'Whispering...' : 'Whisper'}
-                </button>
+            <div className="info-text">
+                <p>
+                    This Rails/React application demonstrates production-ish architecture patterns. It uses Docker for local development and AWS Fargate for hosting (deployed with Terraform).
+                    <br/><br/>
+                    The app mimics high-throughput systems by offloading work to background queues, keeping web responses fast. Worker processes handle long-running LLM API calls, while the UI updates in real-time via WebSockets.
+                    <br/><br/> Try the whisper again and see the architecture diagram updated based on socket messages from throughout the process.</p>
             </div>
             
-            {/* Dynamic content container positioned below static content */}
-            <div className="dynamic-content">
-                {/* Question Part */}
-                {showQuestionPart && (
-                    <div
-                        id="question-part"
-                        className="message-part question-part"
-                    >
-                        <p className="message-text">
-                            {questionPart}
-                        </p>
-                    </div>
-                )}
-
-                {/* Answer Part */}
-                {showAnswerPart && (
-                    <div
-                        id="answer-part"
-                        className="message-part answer-part"
-                    >
-                        <p className="message-text">
-                            {answerPart}
-                        </p>
-                    </div>
-                )}
-            </div>
+            <WhisperSection
+                isLoading={isLoading}
+                disableButton={!finalMessageReceived}
+                questionPart={questionPart}
+                answerPart={answerPart}
+                showQuestionPart={showQuestionPart}
+                showAnswerPart={showAnswerPart}
+                onWhisperClick={handleWhisperClick}
+            />
 
             {/* Architecture Diagram in the lower half */}
             <div className="architecture-section">
