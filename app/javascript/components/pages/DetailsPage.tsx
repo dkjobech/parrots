@@ -81,23 +81,27 @@ const DetailsPage: React.FC = () => {
 
     return (
         <div className="details-container">
-            <div className="info-text">
-                <p>
-                    This Rails/React application demonstrates production-ish architecture patterns. It uses Docker for local development and AWS Fargate for hosting (deployed with Terraform).
-                    <br/><br/>
-                    The app mimics high-throughput systems by offloading work to background queues, keeping web responses fast. Worker processes handle long-running LLM API calls, while the UI updates in real-time via WebSockets.
-                    <br/><br/> Try the whisper again and see the architecture diagram updated based on socket messages from throughout the process.</p>
+            <div className="static-content">
+                <div className="info-text">
+                    <p>
+                        This Rails/React application demonstrates production-ish architecture patterns. It uses Docker for local development and AWS Fargate for hosting (deployed with Terraform).
+                        <br/><br/>
+                        The app mimics high-throughput systems by offloading work to background queues, keeping web responses fast. Worker processes handle long-running LLM API calls, while the UI updates in real-time via WebSockets.
+                        <br/><br/> Try the whisper again and see the architecture diagram updated based on socket messages from throughout the process.</p>
+                </div>
             </div>
             
-            <WhisperSection
-                isLoading={isLoading}
-                disableButton={!finalMessageReceived}
-                questionPart={questionPart}
-                answerPart={answerPart}
-                showQuestionPart={showQuestionPart}
-                showAnswerPart={showAnswerPart}
-                onWhisperClick={handleWhisperClick}
-            />
+            <div className="details-whisper-section">
+                <WhisperSection
+                    isLoading={isLoading}
+                    disableButton={!finalMessageReceived}
+                    questionPart={questionPart}
+                    answerPart={answerPart}
+                    showQuestionPart={showQuestionPart}
+                    showAnswerPart={showAnswerPart}
+                    onWhisperClick={handleWhisperClick}
+                />
+            </div>
 
             {/* Architecture Diagram in the lower half */}
             <div className="architecture-section">

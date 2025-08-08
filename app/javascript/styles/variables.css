@@ -1,11 +1,11 @@
 :root {
   /* Colors */
-  --color-primary: #007bff;
+  --color-primary: rgba(0, 123, 255, 0.32);
   --color-secondary: #f8f9fa;
   --color-text: #212529;
   --color-background: #ffffff;
   --color-border: #dee2e6;
-  --color-success: #28a745;
+  --color-success: rgba(40, 167, 69, 0.37);
   --color-error: #dc3545;
   
   /* Typography */

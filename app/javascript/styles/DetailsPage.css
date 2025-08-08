@@ -15,13 +15,28 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  z-index: 2;
 }
 
 .info-text {
   text-align: center;
   max-width: 700px;
-  margin-bottom: var(--spacing-md);
+  margin: 0 auto var(--spacing-lg);
   color: #86868b;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.details-whisper-section {
+  position: relative;
+  top: 250px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
+  z-index: 1;
 }
 
 .page-title {
@@ -69,23 +84,25 @@
 
 .dynamic-content {
   position: absolute;
-  top: 420px;
+  top: 500px;
   left: 0;
   right: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+  z-index: 1;
 }
 
 .architecture-section {
   position: absolute;
-  top: 550px;
+  top: 650px;
   left: 0;
   right: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-bottom: 50px; /* Add padding at the bottom for scrolling space */
+  z-index: 1;
 }
 
 .details-title {
