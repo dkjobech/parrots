@@ -20,7 +20,7 @@ export const useActionCable = (room: number) => {
                 received(data: any) {
                     console.log("Received message:", data);
                     const newMessage: Message = {
-                        id: Date.now().toString(),
+                        id: data.id,
                         message: data.message,
                         timestamp: new Date()
                     };

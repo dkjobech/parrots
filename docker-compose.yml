@@ -7,15 +7,19 @@ services:
       dockerfile: Dockerfile.web
     volumes:
       - .:/usr/src/app
+      - /usr/src/app/node_modules
     ports:
       - "3000:3000"
       - "1234:1234"    # debugger port
       - "26162:26162"  # RubyMine uses this for debase/rdebug-ide coordination
     depends_on:
-      redis: 
+      redis:
         condition: service_healthy
     networks:
       - parrots
+    environment:
+      - NODE_ENV=development
+    command: ["./start-dev.sh"]
 
   redis:
     build:
@@ -34,10 +38,9 @@ services:
       timeout: 5s
 
 networks:
-   parrots:
-      driver: bridge
+  parrots:
+    driver: bridge
 
 volumes:
-   parrots-redis:
-      driver: local
-
+  parrots-redis:
+    driver: local

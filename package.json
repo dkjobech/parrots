@@ -1,3 +1,4 @@
+
 {
   "name": "Parrots",
   "private": "true",
@@ -22,9 +23,10 @@
     "typescript": "^5.0.0"
   },
   "scripts": {
-    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=assets --loader:.tsx=tsx --loader:.ts=tsx --loader:.jsx=jsx --loader:.js=jsx",
+    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=assets --loader:.js=jsx --loader:.tsx=tsx --loader:.ts=ts",
+    "build:watch": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=assets --loader:.js=jsx --loader:.tsx=tsx --loader:.ts=ts --watch",
+    "build:dev": "npm run build:watch",
     "build:css": "sass ./app/assets/stylesheets/application.bootstrap.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules",
-    "watch": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=assets --loader:.tsx=tsx --loader:.ts=tsx --loader:.jsx=jsx --loader:.js=jsx --watch",
-    "watch:css": "sass ./app/assets/stylesheets/application.bootstrap.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules --watch"
+    "build:css:watch": "sass ./app/assets/stylesheets/application.bootstrap.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules --watch"
   }
 }
