@@ -111,7 +111,7 @@ def update_ionos_dns(new_ip):
     resp.raise_for_status()
 
 def main():
-    //current_ip = get_current_dns_ip()
+    #current_ip = get_current_dns_ip()
     result = get_ionos_ip_with_debug()
     print(f"\nFINAL RESULT: {result}")
     return
