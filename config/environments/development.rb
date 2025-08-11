@@ -42,7 +42,7 @@ Rails.application.configure do
   # Skip host checking for health check endpoints
   config.host_authorization = {
     exclude: ->(request) {
-        request.path.start_with?("/rails/health")
+        request.path.start_with?("/up")
     }
   }
 
