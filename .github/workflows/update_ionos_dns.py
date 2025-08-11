@@ -43,11 +43,11 @@ def get_fargate_public_ip():
 
 def update_ionos_dns(new_ip):
     headers = {
-        "Authorization": f"Bearer {IONOS_API_KEY}",
+        "X-API-Key": f"Bearer {IONOS_API_KEY}",
         "Content-Type": "application/json"
     }
     data = {"content": new_ip}
-    url = f"https://api.hosting.ionos.com/dns/v1/records/{IONOS_A_RECORD_ID}"
+    url = f"https://api.hosting.ionos.com/dns/v1/zones/deepwatertechnologies.com/records/{IONOS_A_RECORD_ID}"
     resp = requests.patch(url, json=data, headers=headers)
     resp.raise_for_status()
 
