@@ -43,4 +43,4 @@ jobs:
           IONOS_A_RECORD_ID: ${{ secrets.IONOS_A_RECORD_ID }}
           IONOS_DOMAIN: ${{ secrets.IONOS_DOMAIN }}
           EXPECTED_KEYWORD: ${{ secrets.EXPECTED_KEYWORD }}
-        run: python update_ionos_dns.py
+        run: python .github/workflows/update_ionos_dns.py
