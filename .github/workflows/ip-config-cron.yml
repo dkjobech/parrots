@@ -40,7 +40,7 @@ jobs:
       - name: Run update script
         env:
           IONOS_API_KEY: ${{ secrets.IONOS_API_KEY }}
-          IONOS_A_RECORD_ID: ${{ secrets.IONOS_A_RECORD_ID }}
-          IONOS_DOMAIN: ${{ secrets.IONOS_DOMAIN }}
-          EXPECTED_KEYWORD: ${{ secrets.EXPECTED_KEYWORD }}
+          IONOS_A_RECORD_ID: ${{ env.IONOS_A_RECORD_ID }}
+          IONOS_DOMAIN: ${{ env.IONOS_DOMAIN }}
+          EXPECTED_KEYWORD: ${{ env.EXPECTED_KEYWORD }}
         run: python .github/workflows/update_ionos_dns.py
