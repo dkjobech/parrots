@@ -11,7 +11,6 @@ IONOS_DOMAIN = os.environ["IONOS_DOMAIN"]
 EXPECTED_KEYWORD = os.environ.get("EXPECTED_KEYWORD", "")
 
 def get_ionos_ip_with_debug():
-    IONOS_DOMAIN = "your_domain_here"  # Replace with actual domain
 
     # Step 1: Build the URL
     url = f"https://dns.google/resolve?name={IONOS_DOMAIN}&type=A"
