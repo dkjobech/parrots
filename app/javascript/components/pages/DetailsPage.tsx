@@ -25,17 +25,13 @@ const DetailsPage: React.FC = () => {
     const scrollTargetRef = useRef<HTMLDivElement>(null);
 
     const scrollToTop = () => {
-        console.log("scrolling to target");
-        
-        // Try multiple approaches to ensure scrolling works
-        
-        // Approach 1: Direct position
+        console.log("scrolling to target")
+
         window.scrollTo({
-            top: 600, // Match the top position from CSS
+            top: 600,
             behavior: 'smooth'
         });
-        
-        // Approach 2: Using ID
+
         setTimeout(() => {
             const architectureSection = document.getElementById('architecture-section');
             if (architectureSection) {
@@ -46,8 +42,7 @@ const DetailsPage: React.FC = () => {
                 });
             }
         }, 50);
-        
-        // Approach 3: Using ref with a slightly longer delay
+
         setTimeout(() => {
             if (scrollTargetRef.current) {
                 console.log("scrolling ref is current");

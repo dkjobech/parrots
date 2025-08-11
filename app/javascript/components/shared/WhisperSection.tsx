@@ -43,7 +43,7 @@ const WhisperSection: React.FC<WhisperSectionProps> = ({
         </button>
       </div>
       
-      {/* Dynamic content container positioned below static content */}
+
       <div className="dynamic-content">
         {/* Question Part */}
         {showQuestionPart && (
