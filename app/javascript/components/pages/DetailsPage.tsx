@@ -1,9 +1,8 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import { useArchitectureFlow } from '../../hooks/useArchitectureFlow';
 import { useMessageProcessor } from '../../hooks/useMessageProcessor';
 import '../../styles/variables.css';
 import '../../styles/DetailsPage.css';
-import appleStyles from '../../styles/appleStyles';
 import { ArchitectureIcon } from '../icons/ArchitectureIcons';
 import WhisperSection from '../shared/WhisperSection';
 
@@ -21,7 +20,47 @@ const DetailsPage: React.FC = () => {
     // Track whether the final message (ID 6) has been received
     // Initialize to true if this is the first load to allow the button to be clickable initially
     const [finalMessageReceived, setFinalMessageReceived] = React.useState(true);
-    
+
+    // Function to scroll to bring the architecture diagram into view
+    const scrollTargetRef = useRef<HTMLDivElement>(null);
+
+    const scrollToTop = () => {
+        console.log("scrolling to target");
+        
+        // Try multiple approaches to ensure scrolling works
+        
+        // Approach 1: Direct position
+        window.scrollTo({
+            top: 600, // Match the top position from CSS
+            behavior: 'smooth'
+        });
+        
+        // Approach 2: Using ID
+        setTimeout(() => {
+            const architectureSection = document.getElementById('architecture-section');
+            if (architectureSection) {
+                architectureSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                    inline: 'nearest'
+                });
+            }
+        }, 50);
+        
+        // Approach 3: Using ref with a slightly longer delay
+        setTimeout(() => {
+            if (scrollTargetRef.current) {
+                console.log("scrolling ref is current");
+                scrollTargetRef.current.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                    inline: 'nearest'
+                });
+            }
+        }, 100);
+    };
+
+
     const {
         isLoading: archIsLoading,
         jokeResponse,
@@ -30,7 +69,7 @@ const DetailsPage: React.FC = () => {
         isConnected,
         startProcess,
         resetArchitecture
-    } = useArchitectureFlow({ room: sharedRoom, delay: 2 });
+    } = useArchitectureFlow({ room: sharedRoom });
     
     const {
         isLoading,
@@ -54,10 +93,16 @@ const DetailsPage: React.FC = () => {
         
         // Reset the final message received state
         setFinalMessageReceived(false);
+
+        // Call scrollToTop first to ensure it happens immediately
+        scrollToTop();
         
-        // Start the architecture flow visualization
-        // This will make a backend call with a 2-second delay
-        startProcess();
+        // Small delay before starting the process to ensure scroll happens
+        setTimeout(() => {
+            // Start the architecture flow visualization
+            startProcess();
+            sendRequest(2);
+        }, 50);
     };
 
     const getStepClassName = (step: ArchitectureStep) => {
@@ -80,18 +125,18 @@ const DetailsPage: React.FC = () => {
     const llmStep = architectureSteps.find(step => step.id === 'llm');
 
     return (
-        <div className="details-container">
+        <div className="details-container" >
             <div className="static-content">
-                <div className="info-text">
+                <div className="info-text" >
                     <p>
                         This Rails/React application demonstrates production-ish architecture patterns. It uses Docker for local development and AWS Fargate for hosting (deployed with Terraform).
                         <br/><br/>
                         The app mimics high-throughput systems by offloading work to background queues, keeping web responses fast. Worker processes handle long-running LLM API calls, while the UI updates in real-time via WebSockets.
-                        <br/><br/> Try the whisper again and see the architecture diagram updated based on socket messages from throughout the process.</p>
+                        <br/><br/> Let's run through this again a bit slower and see the architecture diagram (below) update based on socket messages sent throughout the process.</p>
                 </div>
             </div>
             
-            <div className="details-whisper-section">
+            <div className="details-whisper-section" >
                 <WhisperSection
                     isLoading={isLoading}
                     disableButton={!finalMessageReceived}
@@ -104,7 +149,7 @@ const DetailsPage: React.FC = () => {
             </div>
 
             {/* Architecture Diagram in the lower half */}
-            <div className="architecture-section">
+            <div id="architecture-section" ref={scrollTargetRef} className="architecture-section" >
 
                 <div className="architecture-container">
                     {/* Main horizontal flow - all steps on one line */}

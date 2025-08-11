@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import { useMessageProcessor } from '../../hooks/useMessageProcessor';
-import appleStyles from '../../styles/appleStyles';
 import '../../styles/variables.css';
 import '../../styles/HomePage.css';
 import WhisperSection from '../shared/WhisperSection';
@@ -33,7 +32,7 @@ const HomePage: React.FC = () => {
             >
                 <br /><br /><br />
                 <p className="info-text">
-                    * Just like parrots, this demo is a little more complicated than it looks. <Link className={'details-link'} to="/details">
+                    Just like parrots, there's a little more to this demo than meets the eye. <Link className={'details-link'} to="/details">
                     Details
                     </Link>
                 </p>

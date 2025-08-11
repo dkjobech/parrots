@@ -15,7 +15,6 @@ interface WhisperSectionProps {
 }
 
 const WhisperSection: React.FC<WhisperSectionProps> = ({
-  title = "Want to whisper to a parrot?",
   isLoading,
   disableButton = false,
   questionPart,
@@ -29,9 +28,6 @@ const WhisperSection: React.FC<WhisperSectionProps> = ({
     <>
       {/* Static content fixed at top */}
       <div className="static-content">
-        <h1 className="page-title">
-          {title}
-        </h1>
 
         <button
           id="whisper-btn"

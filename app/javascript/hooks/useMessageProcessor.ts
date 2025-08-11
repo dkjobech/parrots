@@ -14,7 +14,7 @@ interface MessageParts {
 }
 
 export const useMessageProcessor = (options: MessageProcessorOptions = {}) => {
-  const { initialDelay = 3000, room: initialRoom } = options;
+  const { initialDelay = 4000, room: initialRoom } = options;
   
   const [room, setRoom] = useState<number>(initialRoom || 0);
   const [isLoading, setIsLoading] = useState<boolean>(false);

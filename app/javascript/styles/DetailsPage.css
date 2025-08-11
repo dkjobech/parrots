@@ -5,6 +5,8 @@
   color: var(--color-text);
   background-color: var(--color-background);
   padding: 0 var(--spacing-md);
+  overflow-y: auto; /* Ensure scrolling works within the container */
+  scroll-behavior: smooth; /* Enable smooth scrolling for the entire container */
 }
 
 .static-content {
@@ -89,7 +91,7 @@
 
 .dynamic-content {
   position: absolute;
-  top: 220px;
+  top: 120px;
   left: 0;
   right: 0;
   display: flex;
@@ -100,7 +102,7 @@
 
 .architecture-section {
   position: absolute;
-  top: 750px;
+  top: 650px;
   left: 0;
   right: 0;
   display: flex;

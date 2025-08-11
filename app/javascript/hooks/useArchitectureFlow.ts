@@ -10,12 +10,11 @@ interface ArchitectureStep {
 }
 
 interface UseArchitectureFlowOptions {
-  delay?: number;
   room?: number;
 }
 
 export const useArchitectureFlow = (options: UseArchitectureFlowOptions = {}) => {
-  const { delay = 2, room: initialRoom } = options;
+  const { room: initialRoom } = options;
   
   const [room, setRoom] = useState<number>(initialRoom || 0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -27,7 +26,7 @@ export const useArchitectureFlow = (options: UseArchitectureFlowOptions = {}) =>
     { id: 'queue', name: 'Queue Job', icon: 'Queue', isActive: false, isCompleted: false },
     { id: 'worker', name: 'Worker Process', icon: 'Worker', isActive: false, isCompleted: false },
     { id: 'llm', name: 'LLM Request', icon: 'LLM', isActive: false, isCompleted: false },
-    { id: 'sockets', name: 'WebSocket Update', icon: 'Socket', isActive: false, isCompleted: false }
+    { id: 'sockets', name: 'WebSocket', icon: 'Socket', isActive: false, isCompleted: false }
   ]);
 
   // Use the ActionCable hook
@@ -126,29 +125,6 @@ export const useArchitectureFlow = (options: UseArchitectureFlowOptions = {}) =>
 
     // Show loading state
     setIsLoading(true);
-
-    try {
-      const response = await fetch('/queue', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-Token': (window as any).csrfToken || ''
-        },
-        body: JSON.stringify({ room: room, delay })
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-    } catch (error) {
-      console.error('Error:', error);
-      setJokeResponse(`Error getting joke: ${error instanceof Error ? error.message : 'Unknown error'}`);
-      setShowJoke(true);
-    } finally {
-      setIsLoading(false);
-    }
   };
 
   return {
