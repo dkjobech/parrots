@@ -43,7 +43,7 @@ def get_fargate_public_ip():
 
 def update_ionos_dns(new_ip):
     headers = {
-        "X-API-Key": f"Bearer {IONOS_API_KEY}",
+        "X-API-Key": IONOS_API_KEY,
         "Content-Type": "application/json"
     }
     data = {"content": new_ip}
