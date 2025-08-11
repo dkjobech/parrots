@@ -35,7 +35,8 @@ Rails.application.configure do
 
   # Enable DNS rebinding protection and other `Host` header attacks.
   config.hosts = [
-     /.*\.deepwatertechnologies\.com/
+     /.*\.deepwatertechnologies\.com/,
+     localhost,
    ]
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
