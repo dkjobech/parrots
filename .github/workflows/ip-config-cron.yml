@@ -1,0 +1,46 @@
+name: Update IONOS DNS from ECS
+
+permissions:
+  id-token: write
+  contents: read
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+jobs:
+  update-dns:
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Export variables to env
+        run: |
+          ENV_JSON='${{ vars.IP_VARIABLES }}'
+          echo "$ENV_JSON" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
+
+      - name: Configure AWS credentials from role
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION}}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install boto3 requests
+
+      - name: Run update script
+        env:
+          IONOS_API_KEY: ${{ secrets.IONOS_API_KEY }}
+          IONOS_A_RECORD_ID: ${{ secrets.IONOS_A_RECORD_ID }}
+          IONOS_DOMAIN: ${{ secrets.IONOS_DOMAIN }}
+          EXPECTED_KEYWORD: ${{ secrets.EXPECTED_KEYWORD }}
+        run: python update_ionos_dns.py
