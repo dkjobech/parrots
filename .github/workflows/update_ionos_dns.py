@@ -10,6 +10,66 @@ IONOS_A_RECORD_ID = os.environ["IONOS_A_RECORD_ID"]
 IONOS_DOMAIN = os.environ["IONOS_DOMAIN"]
 EXPECTED_KEYWORD = os.environ.get("EXPECTED_KEYWORD", "")
 
+def get_ionos_ip_with_debug():
+    IONOS_DOMAIN = "your_domain_here"  # Replace with actual domain
+
+    # Step 1: Build the URL
+    url = f"https://dns.google/resolve?name={IONOS_DOMAIN}&type=A"
+    print(f"Step 1 - Built URL: {url}")
+
+    # Step 2: Make the request
+    try:
+        print(f"Step 2 - Making GET request to: {url}")
+        response = requests.get(url, timeout=5)
+        print(f"Step 3 - Response status code: {response.status_code}")
+        print(f"Step 4 - Response headers: {dict(response.headers)}")
+        print(f"Step 5 - Raw response text: {response.text}")
+
+        # Step 3: Parse JSON
+        print("Step 6 - Parsing JSON...")
+        json_data = response.json()
+        print(f"Step 7 - Parsed JSON: {json.dumps(json_data, indent=2)}")
+
+        # Step 4: Extract Answer
+        print("Step 8 - Extracting Answer...")
+        if "Answer" in json_data:
+            answers = json_data["Answer"]
+            print(f"Step 9 - Found {len(answers)} answers: {answers}")
+
+            if len(answers) > 0:
+                first_answer = answers[0]
+                print(f"Step 10 - First answer: {first_answer}")
+
+                if "data" in first_answer:
+                    ip_address = first_answer["data"]
+                    print(f"Step 11 - Final IP address: {ip_address}")
+                    return ip_address
+                else:
+                    print("ERROR: No 'data' field in first answer")
+                    return None
+            else:
+                print("ERROR: Answer array is empty")
+                return None
+        else:
+            print("ERROR: No 'Answer' field in response")
+            return None
+
+    except requests.exceptions.Timeout:
+        print("ERROR: Request timed out after 5 seconds")
+        return None
+    except requests.exceptions.RequestException as e:
+        print(f"ERROR: Request failed: {e}")
+        return None
+    except json.JSONDecodeError as e:
+        print(f"ERROR: Failed to parse JSON: {e}")
+        return None
+    except KeyError as e:
+        print(f"ERROR: Missing key in response: {e}")
+        return None
+    except Exception as e:
+        print(f"ERROR: Unexpected error: {e}")
+        return None
+
 def get_current_dns_ip():
     try:
         r = requests.get(
@@ -51,7 +111,11 @@ def update_ionos_dns(new_ip):
     resp.raise_for_status()
 
 def main():
-    current_ip = get_current_dns_ip()
+    //current_ip = get_current_dns_ip()
+    result = get_ionos_ip_with_debug()
+    print(f"\nFINAL RESULT: {result}")
+    return
+
     if site_ok(current_ip):
         print(f"✅ Site is fine at {current_ip} — no update needed.")
         return
