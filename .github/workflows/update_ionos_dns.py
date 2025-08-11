@@ -1,6 +1,7 @@
 import boto3
 import requests
 import os
+import json
 
 AWS_REGION = os.environ["AWS_REGION"]
 ECS_CLUSTER = os.environ["ECS_CLUSTER"]
