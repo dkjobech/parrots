@@ -36,7 +36,7 @@ Rails.application.configure do
   # Enable DNS rebinding protection and other `Host` header attacks.
   config.hosts = [
      /.*\.deepwatertechnologies\.com/,
-     'localhost',
+     "localhost",
    ]
 
   # Add this to see what's being blocked
