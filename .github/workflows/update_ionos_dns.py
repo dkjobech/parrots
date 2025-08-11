@@ -9,6 +9,7 @@ ECS_SERVICE = os.environ["ECS_SERVICE"]
 IONOS_API_KEY = os.environ["IONOS_API_KEY"]
 IONOS_A_RECORD_ID = os.environ["IONOS_A_RECORD_ID"]
 IONOS_DOMAIN = os.environ["IONOS_DOMAIN"]
+IONOS_ZONE = os.environ["IONOS_ZONE"]
 EXPECTED_KEYWORD = os.environ.get("EXPECTED_KEYWORD", "")
 
 def get_current_dns_ip():
@@ -47,8 +48,8 @@ def update_ionos_dns(new_ip):
         "Content-Type": "application/json"
     }
     data = {"content": new_ip}
-    url = f"https://api.hosting.ionos.com/dns/v1/zones/deepwatertechnologies.com/records/{IONOS_A_RECORD_ID}"
-    resp = requests.patch(url, json=data, headers=headers)
+    url = f"https://api.hosting.ionos.com/dns/v1/zones/{IONOS_ZONE}/records/{IONOS_A_RECORD_ID}"
+    resp = requests.put(url, json=data, headers=headers)
     resp.raise_for_status()
 
 def main():
