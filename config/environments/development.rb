@@ -39,12 +39,16 @@ Rails.application.configure do
      localhost,
    ]
 
-  # Skip host checking for health check endpoints
-  config.host_authorization = {
-    exclude: ->(request) {
-        request.path.start_with?("/up")
+  # Add this to see what's being blocked
+  Rails.application.configure do
+    config.host_authorization = {
+      exclude: ->(request) {
+        Rails.logger.info "Health check from: #{request.host}, IP: #{request.remote_ip}, Path: #{request.path}"
+        request.path == "/up"
+      }
     }
-  }
+  end
+
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
