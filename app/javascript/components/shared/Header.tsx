@@ -25,7 +25,7 @@ const Header: React.FC = () => {
                     textDecoration: 'none',
                     letterSpacing: '-0.5px'
                 }}>
-                    Parrots
+                    Parrot Whisperer
                 </Link>
             </div>
         </header>
