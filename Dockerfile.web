@@ -2,7 +2,8 @@ FROM ruby:3.2
 
 # Install system dependencies including newer Node.js for React/TypeScript
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
-RUN apt-get update && apt-get install -y nodejs yarn build-essential ruby-dev vim-tiny
+RUN apt-get update && apt-get install -y nodejs build-essential ruby-dev vim-tiny
+RUN npm install -g yarn
 
 WORKDIR /usr/src/app
 COPY Gemfile Gemfile.lock ./

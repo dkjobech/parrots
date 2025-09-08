@@ -1,5 +1,5 @@
+name: parrots
 services:
-
   web:
     container_name: parrots-app
     build:
